@@ -1,4 +1,6 @@
 import fs from 'fs';
+import dotenv from 'dotenv';
+import { isEqual } from 'lodash';
 
 /**
  * get env files absolute path
@@ -19,8 +21,27 @@ export const list = (args = []) => {
  */
 export const readFile = (envList = []) => {
   const envContent = envList.map(env => ({
-    file: env,
+    path: env,
     content: fs.readFileSync(env),
   }));
   return envContent;
+};
+
+/**
+ * compare env key name
+ * @param {array} envsFiles
+ */
+export const compare = (envsFiles) => {
+  const baseEnv = envsFiles.shift();
+  const baseEnvObj = dotenv.parse(baseEnv.content);
+  const baseEnvName = Object.keys(baseEnvObj);
+
+  envsFiles.forEach((envFile) => {
+    const envObj = dotenv.parse(envFile.content);
+    const envName = Object.keys(envObj);
+    if (!isEqual(baseEnvName, envName)) {
+      throw new Error(`${baseEnv.path} not equal to ${envFile.path}`);
+    }
+  });
+  return true;
 };

@@ -2,7 +2,6 @@ import path from 'path';
 import { expect } from 'chai';
 import { StringDecoder } from 'string_decoder';
 import * as envs from '../src/envs';
-import compare from '../src/compare';
 
 describe('guardian of env test', () => {
   const cwd = process.cwd();
@@ -42,7 +41,7 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.not.the.same'),
     ];
     const envReadFiles = envs.readFile(envFiles);
-    expect(() => compare(envReadFiles)).to.throw(`${envFiles[0]} not equa to ${envFiles[1]}`);
+    expect(() => envs.compare(envReadFiles)).to.throw(`${envFiles[0]} not equal to ${envFiles[1]}`);
 
     // test multiple line
     const envFilesA = [
@@ -50,7 +49,7 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.multiple.not.the.same'),
     ];
     const envReadFilesA = envs.readFile(envFilesA);
-    expect(() => compare(envReadFilesA)).to.throw(`${envFilesA[0]} not equa to ${envFilesA[1]}`);
+    expect(() => envs.compare(envReadFilesA)).to.throw(`${envFilesA[0]} not equal to ${envFilesA[1]}`);
   });
 
   it('sould not throw error', () => {
@@ -59,7 +58,7 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.the.same'),
     ];
     const envReadFiles = envs.readFile(envFiles);
-    expect(compare(envReadFiles)).to.equal(true);
+    expect(envs.compare(envReadFiles)).to.equal(true);
 
     // test multiple line
     const envFilesA = [
@@ -67,6 +66,6 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.multiple.the.same'),
     ];
     const envReadFilesA = envs.readFile(envFilesA);
-    expect(compare(envReadFilesA)).to.equal(true);
+    expect(envs.compare(envReadFilesA)).to.equal(true);
   });
 });
