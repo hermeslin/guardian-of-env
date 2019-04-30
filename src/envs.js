@@ -2,6 +2,9 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 import { isEqual } from 'lodash';
 
+/**
+ * default env files
+ */
 export const defaultEnvFiles = () => ([
   '.env', '.env.example',
 ]);
