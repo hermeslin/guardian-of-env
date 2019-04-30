@@ -10,6 +10,7 @@ try {
   console.log('.env files all the same!');
   process.exitCode = 0;
 } catch (e) {
-  console.log(`${args.join(', ')} not the same`);
+  const argFiles = (args.length > 0) ? args : envs.defaultEnvFiles();
+  console.log(`${argFiles.join(', ')} not the same`);
   process.exitCode = 1;
 }

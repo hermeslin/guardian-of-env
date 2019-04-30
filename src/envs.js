@@ -2,16 +2,16 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 import { isEqual } from 'lodash';
 
+export const defaultEnvFiles = () => ([
+  '.env', '.env.example',
+]);
+
 /**
  * get env files absolute path
  * @param {array} args
  */
 export const list = (args = []) => {
-  const defaultEnvFiles = [
-    '.env', '.env.example',
-  ];
-
-  const envFiles = (args.length > 0) ? args : defaultEnvFiles;
+  const envFiles = (args.length > 0) ? args : defaultEnvFiles();
   return envFiles.map(envFile => (`${process.cwd()}/${envFile}`));
 };
 
