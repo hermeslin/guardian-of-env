@@ -1,13 +1,17 @@
 language: node_js
 node_js:
-  - "8"
-  - "10"
-
+- '8'
+- '10'
 cache: yarn
-
 install: yarn
 script:
-  - yarn lint
-  - npm run test:coverage
+- yarn lint
+- npm run test:coverage
 after_success:
-  - yarn report-coverage
+- yarn report-coverage
+notifications:
+  slack:
+    matrix:
+    - hermes-develop:LmsG8kHM3ZYhSVYzmbpMFSNo
+    rooms:
+      secure: NZ5oHWPQ1kf5gNmK3ocO8+zhdg1VlC7Y+/wKy2dRbIORaJ8MGcHdNOw8PYVzY4yigM/7wyqDyq5GsKzAK3I1o9Spf0tQ00RZDPtJusl6hMs1G+HzH66savjllSlUWl37/z9uBLt8LiOP1egBMiL56PJIc4ofexBqEQMd4XUjVNtiK3ryerPnhGy6da0N3y3ihM9kXsIfHH+9liGMWDf9faKJOVMTAICfR945pfu1FkHkt+QnBpj/AwicSAAzD5mDP5lLMcRmPUzd5uWrjRw05E/BiEe8ttYeptmcRqKLPrDDydBucgQrD78Hc6ei+YfnQ+2xnNW7YJa6d7F2FLD8aaCCpBXDBVyWtFyIZOYvVhn3iXu9cxMQVVTVTXdJTYV5QXt3F4OEaKGydBRTPapeZ6cZohMryafM4/+v0nE5a6fh+gLT1fWx96R3SURwvaiZw5FOfvQ6r9EDzj45RHtaQrJ5J9ogbrbdLurEJWoMfMjwmJuhhA3mX15/M5YkZlZECjyELuOvY/1jNJ0V+lEWodgY6LphpwO/VU7IcqMqinnPLAUQQfFP6U5LduiadNK2sZnSjU+/LAI8dVX1u5Mj8iubVTQiysD2DHdLH3sS9Z8/1OJPx35gMVNc9HT6f8tuP0lJ7lfAvGug+zkgpvImB3FMMJ02UKQxGKiRsnWwp6Q=
