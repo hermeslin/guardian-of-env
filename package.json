@@ -1,6 +1,6 @@
 {
   "name": "guardian-of-env",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "main": "./lib/main.js",
   "repository": "https://github.com/hermeslin/guardian-of-env.git",
   "author": "hermeslin <mercury.iwork@gmail.com>",
