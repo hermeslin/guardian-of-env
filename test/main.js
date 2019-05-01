@@ -67,5 +67,22 @@ describe('guardian of env test', () => {
     ];
     const envReadFilesA = envs.readFile(envFilesA);
     expect(envs.compare(envReadFilesA)).to.equal(true);
+
+    // test multiple line different sort
+    const envFilesB = [
+      path.resolve(cwd, 'test/.env.multiple'),
+      path.resolve(cwd, 'test/.env.multiple.the.same.different.sort'),
+    ];
+    const envReadFilesB = envs.readFile(envFilesB);
+    expect(envs.compare(envReadFilesB)).to.equal(true);
+  });
+
+  it('should throw error when mode is `strict`', () => {
+    const envFiles = [
+      path.resolve(cwd, 'test/.env.multiple'),
+      path.resolve(cwd, 'test/.env.multiple.the.same.different.sort'),
+    ];
+    const envReadFiles = envs.readFile(envFiles);
+    expect(() => envs.compare(envReadFiles, true)).to.throw(`${envFiles[0]} not equal to ${envFiles[1]}`);
   });
 });
