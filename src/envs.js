@@ -33,15 +33,16 @@ export const readFile = (envList = []) => {
 /**
  * compare env key name
  * @param {array} envsFiles
+ * @param {boolean} isStrict
  */
-export const compare = (envsFiles) => {
+export const compare = (envsFiles, isStrict = false) => {
   const baseEnv = envsFiles.shift();
   const baseEnvObj = dotenv.parse(baseEnv.content);
-  const baseEnvName = Object.keys(baseEnvObj);
+  const baseEnvName = (isStrict) ? Object.keys(baseEnvObj) : Object.keys(baseEnvObj).sort();
 
   envsFiles.forEach((envFile) => {
     const envObj = dotenv.parse(envFile.content);
-    const envName = Object.keys(envObj);
+    const envName = (isStrict) ? Object.keys(envObj) : Object.keys(envObj).sort();
     if (!isEqual(baseEnvName, envName)) {
       throw new Error(`${baseEnv.path} not equal to ${envFile.path}`);
     }
