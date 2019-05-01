@@ -9,6 +9,7 @@ script:
 - npm run test:coverage
 after_success:
 - yarn report-coverage
+- yarn build
 notifications:
   slack:
     matrix:
