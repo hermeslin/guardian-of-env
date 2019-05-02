@@ -75,3 +75,4 @@ CHANGELOG.md
 .eslintrc
 .babelrc
 .gitignore
+.eslintrc.json
