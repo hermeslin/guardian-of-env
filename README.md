@@ -9,7 +9,7 @@ yarn add guardian-of-env --dev
 ```
 
 ## Configuration
-in your project folder, execute `guardian-of-env`, and  `guardian-of-env` campares `.env` and `.env.example` file by default.
+in your project folder, execute `guardian-of-env`, and  `guardian-of-env` compares `.env` and `.env.example` file by default.
 
 ```sh
 ./node_modules/.bin/guardian-of-env

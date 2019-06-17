@@ -1,6 +1,6 @@
 import fs from 'fs';
 import dotenv from 'dotenv';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash.isequal';
 
 /**
  * default env files
