@@ -4,7 +4,8 @@ import * as envs from './envs';
 const [, , ...args] = process.argv;
 
 let isStrict = false;
-let envArgs = [];
+let envArgs = args;
+
 if (args.includes('--strict')) {
   isStrict = true;
   envArgs = args.filter(arg => (arg !== '--strict'));
