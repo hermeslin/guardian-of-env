@@ -1,25 +1,25 @@
 import fs from 'fs';
 import dotenv from 'dotenv';
 import isEqual from 'lodash.isequal';
+import { table } from 'table';
 
 /**
- * default env files
+ * Default env files
  */
-export const defaultEnvFiles = () => ([
-  '.env', '.env.example',
-]);
+export const defaultEnvFiles = () => ['.env', '.env.example'];
 
 /**
- * get env files absolute path
+ * Get env files absolute path
  * @param {array} args
  */
 export const list = (args = []) => {
-  const envFiles = (args.length > 0) ? args : defaultEnvFiles();
-  return envFiles.map(envFile => (`${process.cwd()}/${envFile}`));
+  const envFiles = args.length > 0 ? args : defaultEnvFiles();
+
+  return envFiles.map(envFile => `${process.cwd()}/${envFile}`);
 };
 
 /**
- * read env files content
+ * Read env files content
  * @param {array} envList env files
  */
 export const readFile = (envList = []) => {
@@ -27,25 +27,52 @@ export const readFile = (envList = []) => {
     path: env,
     content: fs.readFileSync(env),
   }));
+
   return envContent;
 };
 
 /**
- * compare env key name
+ * Compare env key name
  * @param {array} envsFiles
  * @param {boolean} isStrict
  */
 export const compare = (envsFiles, isStrict = false) => {
   const baseEnv = envsFiles.shift();
   const baseEnvObj = dotenv.parse(baseEnv.content);
-  const baseEnvName = (isStrict) ? Object.keys(baseEnvObj) : Object.keys(baseEnvObj).sort();
+  const baseEnvName = isStrict
+    ? Object.keys(baseEnvObj)
+    : Object.keys(baseEnvObj).sort();
 
-  envsFiles.forEach((envFile) => {
-    const envObj = dotenv.parse(envFile.content);
-    const envName = (isStrict) ? Object.keys(envObj) : Object.keys(envObj).sort();
+  const colorfulLostKey = key => `\u001b[31m${key}\u001b[39m`;
+
+  const fileRegexp = /.env((\.|-)?([a-z]+)?)+$/;
+  const [baseFileName] = baseEnv.path.match(fileRegexp);
+  const fileNames = [baseFileName];
+
+  envsFiles.forEach(({ content, path }) => {
+    const envObj = dotenv.parse(content);
+    const envName = isStrict ? Object.keys(envObj) : Object.keys(envObj).sort();
+
+    fileNames.push(path.match(fileRegexp)[0]);
+
+    const parametersMapping = baseEnvName.map((key) => {
+      if (!envName.includes(key)) {
+        const lostKey = colorfulLostKey(key);
+
+        return [key, lostKey];
+      }
+
+      return [key, key];
+    });
+
     if (!isEqual(baseEnvName, envName)) {
-      throw new Error(`${baseEnv.path} not equal to ${envFile.path}`);
+      if (process.env.NODE_ENV !== 'test') {
+        console.log(table([fileNames, ...parametersMapping]));
+      }
+
+      throw new Error(`${baseEnv.path} not equal to ${path}`);
     }
   });
+
   return true;
 };
