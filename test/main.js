@@ -43,7 +43,10 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.base'),
       path.resolve(cwd, 'test/.env.not.the.same'),
     ];
-    const envReadFiles = envs.readFile(envFiles);
+    const envReadFiles = {
+      strict: false,
+      files: envs.readFile(envFiles),
+    };
 
     expect(() => envs.compare(envReadFiles)).to.throw(
       `${envFiles[0]} not equal to ${envFiles[1]}`,
@@ -54,7 +57,10 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.multiple'),
       path.resolve(cwd, 'test/.env.multiple.not.the.same'),
     ];
-    const envReadFilesA = envs.readFile(envFilesA);
+    const envReadFilesA = {
+      strict: false,
+      files: envs.readFile(envFilesA),
+    };
 
     expect(() => envs.compare(envReadFilesA)).to.throw(
       `${envFilesA[0]} not equal to ${envFilesA[1]}`,
@@ -66,7 +72,10 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.base'),
       path.resolve(cwd, 'test/.env.the.same'),
     ];
-    const envReadFiles = envs.readFile(envFiles);
+    const envReadFiles = {
+      strict: false,
+      files: envs.readFile(envFiles),
+    };
 
     expect(envs.compare(envReadFiles)).to.equal(true);
 
@@ -75,7 +84,10 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.multiple'),
       path.resolve(cwd, 'test/.env.multiple.the.same'),
     ];
-    const envReadFilesA = envs.readFile(envFilesA);
+    const envReadFilesA = {
+      strict: false,
+      files: envs.readFile(envFilesA),
+    };
 
     expect(envs.compare(envReadFilesA)).to.equal(true);
 
@@ -84,7 +96,10 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.multiple'),
       path.resolve(cwd, 'test/.env.multiple.the.same.different.sort'),
     ];
-    const envReadFilesB = envs.readFile(envFilesB);
+    const envReadFilesB = {
+      strict: false,
+      files: envs.readFile(envFilesB),
+    };
 
     expect(envs.compare(envReadFilesB)).to.equal(true);
   });
@@ -94,9 +109,12 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.multiple'),
       path.resolve(cwd, 'test/.env.multiple.the.same.different.sort'),
     ];
-    const envReadFiles = envs.readFile(envFiles);
+    const envReadFiles = {
+      strict: true,
+      files: envs.readFile(envFiles),
+    };
 
-    expect(() => envs.compare(envReadFiles, true)).to.throw(
+    expect(() => envs.compare(envReadFiles)).to.throw(
       `${envFiles[0]} not equal to ${envFiles[1]}`,
     );
   });
