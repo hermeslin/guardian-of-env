@@ -20,7 +20,7 @@ try {
 
   process.exitCode = 0;
 } catch (error) {
-  const argFiles = (envArgs.length > 0) ? envArgs : envs.defaultEnvFiles();
+  const argFiles = (envArgs.length > 0) ? envArgs : envs.defaultEnvFiles;
 
   console.log(`${highlightFile(argFiles.join(' '))} not the same`);
 
