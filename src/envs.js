@@ -6,20 +6,22 @@ import { table } from 'table';
 /**
  * Default env files
  */
-export const defaultEnvFiles = () => ['.env', '.env.example'];
+export const defaultEnvFiles = ['.env', '.env.example'];
 
 /**
  * Get env files absolute path
+ *
  * @param {array} args
  */
 export const list = (args = []) => {
-  const envFiles = args.length > 0 ? args : defaultEnvFiles();
+  const envFiles = args.length > 0 ? args : defaultEnvFiles;
 
   return envFiles.map(envFile => `${process.cwd()}/${envFile}`);
 };
 
 /**
  * Read env files content
+ *
  * @param {array} envList env files
  */
 export const readFile = (envList = []) => {
@@ -33,13 +35,14 @@ export const readFile = (envList = []) => {
 
 /**
  * Compare env key name
+ *
  * @param {array} envsFiles
- * @param {boolean} isStrict
+ * @param {boolean} strict
  */
-export const compare = (envsFiles, isStrict = false) => {
-  const baseEnv = envsFiles.shift();
+export const compare = ({ strict, files }) => {
+  const baseEnv = files.shift();
   const baseEnvObj = dotenv.parse(baseEnv.content);
-  const baseEnvName = isStrict
+  const baseEnvName = strict
     ? Object.keys(baseEnvObj)
     : Object.keys(baseEnvObj).sort();
 
@@ -49,9 +52,9 @@ export const compare = (envsFiles, isStrict = false) => {
   const [baseFileName] = baseEnv.path.match(fileRegexp);
   const fileNames = [baseFileName];
 
-  envsFiles.forEach(({ content, path }) => {
+  files.forEach(({ content, path }) => {
     const envObj = dotenv.parse(content);
-    const envName = isStrict ? Object.keys(envObj) : Object.keys(envObj).sort();
+    const envName = strict ? Object.keys(envObj) : Object.keys(envObj).sort();
 
     fileNames.push(path.match(fileRegexp)[0]);
 

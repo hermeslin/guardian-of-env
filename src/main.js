@@ -3,20 +3,18 @@ import * as envs from './envs';
 
 const [, , ...args] = process.argv;
 
-let isStrict = false;
-let envArgs = args;
-
-if (args.includes('--strict')) {
-  isStrict = true;
-  envArgs = args.filter(arg => (arg !== '--strict'));
-}
-
+const isStrict = args.includes('--strict');
+const envArgs = args.filter(arg => arg !== '--strict');
 const envList = envs.list(envArgs);
-const envFiles = envs.readFile(envList);
+const envFiles = {
+  strict: isStrict,
+  files: envs.readFile(envList),
+};
+
 const highlightFile = fileName => `\u001b[32m${fileName}\u001b[39m`;
 
 try {
-  envs.compare(envFiles, isStrict);
+  envs.compare(envFiles);
 
   console.log('.env files all the same!');
 
