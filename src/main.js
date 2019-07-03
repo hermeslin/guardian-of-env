@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import * as envs from './envs';
+import EnvFilesNotEqualError from './errors/EnvFilesNotEqualError';
+import { draw as tableDrawer } from './tableDrawer';
 
 const [, , ...args] = process.argv;
 
@@ -22,7 +24,13 @@ try {
 } catch (error) {
   const argFiles = (envArgs.length > 0) ? envArgs : envs.defaultEnvFiles;
 
-  console.log(`${highlightFile(argFiles.join(' '))} not the same`);
-
+  switch (error.constructor) {
+    case EnvFilesNotEqualError:
+      console.log(`${highlightFile(argFiles.join(' '))} not the same`);
+      tableDrawer(error.payload);
+      break;
+    default:
+      break;
+  }
   process.exitCode = 1;
 }

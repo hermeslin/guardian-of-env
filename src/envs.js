@@ -1,7 +1,7 @@
 import fs from 'fs';
 import dotenv from 'dotenv';
 import isEqual from 'lodash.isequal';
-import { table } from 'table';
+import EnvFilesNotEqualError from './errors/EnvFilesNotEqualError';
 
 /**
  * Default env files
@@ -42,11 +42,9 @@ export const readFile = (envList = []) => {
 export const compare = ({ strict, files }) => {
   const baseEnv = files.shift();
   const baseEnvObj = dotenv.parse(baseEnv.content);
-  const baseEnvName = strict
+  const baseEnvKeys = strict
     ? Object.keys(baseEnvObj)
     : Object.keys(baseEnvObj).sort();
-
-  const colorfulLostKey = key => `\u001b[31m${key}\u001b[39m`;
 
   const fileRegexp = /.env((\.|-)?([a-z]+)?)+$/;
   const [baseFileName] = baseEnv.path.match(fileRegexp);
@@ -54,26 +52,19 @@ export const compare = ({ strict, files }) => {
 
   files.forEach(({ content, path }) => {
     const envObj = dotenv.parse(content);
-    const envName = strict ? Object.keys(envObj) : Object.keys(envObj).sort();
+    const envKeys = strict ? Object.keys(envObj) : Object.keys(envObj).sort();
 
     fileNames.push(path.match(fileRegexp)[0]);
 
-    const parametersMapping = baseEnvName.map((key) => {
-      if (!envName.includes(key)) {
-        const lostKey = colorfulLostKey(key);
+    if (!isEqual(baseEnvKeys, envKeys)) {
+      // extra info
+      const payload = {
+        fileNames,
+        baseEnvKeys,
+        envKeys,
+      };
 
-        return [key, lostKey];
-      }
-
-      return [key, key];
-    });
-
-    if (!isEqual(baseEnvName, envName)) {
-      if (process.env.NODE_ENV !== 'test') {
-        console.log(table([fileNames, ...parametersMapping]));
-      }
-
-      throw new Error(`${baseEnv.path} not equal to ${path}`);
+      throw new EnvFilesNotEqualError(`${baseEnv.path} not equal to ${path}`, payload);
     }
   });
 

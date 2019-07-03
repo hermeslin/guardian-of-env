@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import EnvFilesNotEqualError from '../src/errors/EnvFilesNotEqualError';
 
-describe('test env files not equal error', () => {
+describe('exception error test', () => {
   it('should get instance of envFilesNotEqual', () => {
     const extraInfo = {
       anything: 'you want to pass through',
