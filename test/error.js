@@ -7,7 +7,8 @@ describe('exception error test', () => {
       anything: 'you want to pass through',
     };
     const error = new EnvFilesNotEqualError('oh yah~~', extraInfo);
-    expect(error).to.be.an.instanceof(EnvFilesNotEqualError);
+
+    expect(error).to.be.an.instanceof(Error);
     expect(error.payload).to.deep.equal(extraInfo);
   });
 });
