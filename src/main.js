@@ -27,10 +27,11 @@ try {
   switch (error.constructor) {
     case EnvFilesNotEqualError:
       console.log(`${highlightFile(argFiles.join(' '))} not the same`);
-      tableDrawer(error.payload);
+      console.log(tableDrawer(error.payload));
       break;
     default:
       break;
   }
+
   process.exitCode = 1;
 }
