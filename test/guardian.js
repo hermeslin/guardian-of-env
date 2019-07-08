@@ -26,31 +26,31 @@ describe('guardian test', () => {
     const envsMock = sinonSandbox.mock(envs);
     envsMock.expects('list').once().withExactArgs([
       '.env',
-      '.env.exmample',
+      '.env.example',
     ]).returns([
       '.env-real-path',
-      '.env.exmample-real-path',
+      '.env.example-real-path',
     ]);
 
     envsMock.expects('readFile').once().withExactArgs([
       '.env-real-path',
-      '.env.exmample-real-path',
+      '.env.example-real-path',
     ]).returns([
       '.env-content',
-      '.env.exmample-content',
+      '.env.example-content',
     ]);
 
     const args = [
       '--strict',
       '.env',
-      '.env.exmample',
+      '.env.example',
     ];
 
     const envArgs = guardian.parseArgs(args);
     expect(envArgs).to.deep.equal({
-      args: ['.env', '.env.exmample'],
+      args: ['.env', '.env.example'],
       strict: true,
-      files: ['.env-content', '.env.exmample-content'],
+      files: ['.env-content', '.env.example-content'],
     });
 
     envsMock.verify();
@@ -60,13 +60,13 @@ describe('guardian test', () => {
     const envsMock = sinonSandbox.mock(envs);
     envsMock.expects('compare').once().withExactArgs({
       strict: true,
-      files: ['.env-content', '.env.exmample-content'],
+      files: ['.env-content', '.env.example-content'],
     }).returns(true);
 
     const parsedArgs = {
-      args: ['.env', '.env.exmample'],
+      args: ['.env', '.env.example'],
       strict: true,
-      files: ['.env-content', '.env.exmample-content'],
+      files: ['.env-content', '.env.example-content'],
     };
 
     const result = guardian.startCompare(parsedArgs);
@@ -84,7 +84,7 @@ describe('guardian test', () => {
     const envsMock = sinonSandbox.mock(envs);
     envsMock.expects('compare').once().withExactArgs({
       strict: true,
-      files: ['.env-content', '.env.exmample-content'],
+      files: ['.env-content', '.env.example-content'],
     }).throws(new EnvFilesNotEqualError('oops', { payload: 'THIS IS SPARTA!' }));
 
     const tableDrawerMock = sinonSandbox.mock(tableDrawer);
@@ -93,20 +93,37 @@ describe('guardian test', () => {
     }).returns('THIS IS SPARTA TOO!');
 
     const parsedArgs = {
-      args: ['.env', '.env.exmample'],
+      args: [],
       strict: true,
-      files: ['.env-content', '.env.exmample-content'],
+      files: ['.env-content', '.env.example-content'],
     };
 
     const result = guardian.startCompare(parsedArgs);
     expect(result).to.deep.equal({
       same: false,
       messages: [
-        `${guardian.highlightFile(parsedArgs.args.join(' '))} not the same`,
+        `${guardian.highlightFile(['.env', '.env.example'].join(' '))} not the same`,
         'THIS IS SPARTA TOO!',
       ],
     });
 
     envsMock.verify();
+  });
+
+  it('should throw error when other exceptions happened', () => {
+    const envsMock = sinonSandbox.mock(envs);
+    envsMock.expects('compare').once().withExactArgs({
+      strict: true,
+      files: ['.env-content', '.env.example-content'],
+    }).throws(new Error('oooooops'));
+
+
+    const parsedArgs = {
+      args: ['.env', '.env.example'],
+      strict: true,
+      files: ['.env-content', '.env.example-content'],
+    };
+
+    expect(() => guardian.startCompare(parsedArgs)).to.throw('oooooops');
   });
 });

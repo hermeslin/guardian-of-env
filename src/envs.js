@@ -24,7 +24,7 @@ export const list = (args = []) => {
  *
  * @param {array} envList env files
  */
-export const readFile = (envList = []) => {
+export const readFile = (envList) => {
   const envContent = envList.map(env => ({
     path: env,
     content: fs.readFileSync(env),

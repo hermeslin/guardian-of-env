@@ -11,4 +11,10 @@ describe('exception error test', () => {
     expect(error).to.be.an.instanceof(Error);
     expect(error.payload).to.deep.equal(extraInfo);
   });
+
+  it('should get instance of envFilesNotEqual with empty payload', () => {
+    const error = new EnvFilesNotEqualError('oh yah~~');
+    expect(error).to.be.an.instanceof(Error);
+    expect(error.payload).to.deep.equal({});
+  });
 });
