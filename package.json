@@ -22,6 +22,7 @@
     "lint": "./node_modules/.bin/eslint ./src/**",
     "test": "./node_modules/.bin/cross-env NODE_ENV=test NODE_PATH=./src ./node_modules/.bin/mocha --require @babel/register",
     "test:coverage": "npm run lint && cross-env NODE_ENV=test ./node_modules/.bin/nyc npm test",
+    "test:coverage:html": "npm run lint && cross-env NODE_ENV=test ./node_modules/.bin/nyc --reporter=html npm test",
     "report-coverage": "./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/codecov --pipe",
     "build": "cross-env BABEL_ENV=production babel src --out-dir lib",
     "pre-publish": "yarn clean && yarn lint && yarn test && yarn build"
