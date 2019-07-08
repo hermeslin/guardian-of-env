@@ -1,37 +1,12 @@
 #!/usr/bin/env node
-import * as envs from './envs';
-import EnvFilesNotEqualError from './errors/EnvFilesNotEqualError';
-import { draw as tableDrawer } from './tableDrawer';
+import * as guardian from './guardian';
 
 const [, , ...args] = process.argv;
+const envFiles = guardian.parseArgs(args);
+const compareResult = guardian.startCompare(envFiles);
 
-const isStrict = args.includes('--strict');
-const envArgs = args.filter(arg => arg !== '--strict');
-const envList = envs.list(envArgs);
-const envFiles = {
-  strict: isStrict,
-  files: envs.readFile(envList),
-};
+compareResult.messages.forEach((message) => {
+  console.log(message);
+});
 
-const highlightFile = fileName => `\u001b[32m${fileName}\u001b[39m`;
-
-try {
-  envs.compare(envFiles);
-
-  console.log('.env files all the same!');
-
-  process.exitCode = 0;
-} catch (error) {
-  const argFiles = (envArgs.length > 0) ? envArgs : envs.defaultEnvFiles;
-
-  switch (error.constructor) {
-    case EnvFilesNotEqualError:
-      console.log(`${highlightFile(argFiles.join(' '))} not the same`);
-      console.log(tableDrawer(error.payload));
-      break;
-    default:
-      break;
-  }
-
-  process.exitCode = 1;
-}
+process.exitCode = (compareResult.same) ? 0 : 1;
