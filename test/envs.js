@@ -1,24 +1,24 @@
 import path from 'path';
 import { expect } from 'chai';
 import { StringDecoder } from 'string_decoder';
-import * as envs from '../src/envs';
+import { list, readFile, compare } from '../src/envs';
 
 describe('guardian of env test', () => {
   const cwd = process.cwd();
 
   it('should let user set their own env file list', () => {
-    const envList = envs.list(['.env.krkr']);
+    const envList = list(['.env.krkr']);
 
     expect(envList[0]).to.equal(`${cwd}/.env.krkr`);
 
-    const envListA = envs.list(['.env.krkr', '.env']);
+    const envListA = list(['.env.krkr', '.env']);
 
     expect(envListA[0]).to.equal(`${cwd}/.env.krkr`);
     expect(envListA[1]).to.equal(`${cwd}/.env`);
   });
 
   it('should use default env file list', () => {
-    const envList = envs.list();
+    const envList = list();
 
     expect(envList[0]).to.equal(`${cwd}/.env`);
     expect(envList[1]).to.equal(`${cwd}/.env.example`);
@@ -30,7 +30,7 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.not.the.same'),
       path.resolve(cwd, 'test/.env.the.same'),
     ];
-    const envReadFiles = envs.readFile(envFiles);
+    const envReadFiles = readFile(envFiles);
     const decoder = new StringDecoder('utf8');
 
     expect(decoder.write(envReadFiles[0].content)).to.equal('AA=A');
@@ -45,10 +45,10 @@ describe('guardian of env test', () => {
     ];
     const envReadFiles = {
       strict: false,
-      files: envs.readFile(envFiles),
+      files: readFile(envFiles),
     };
 
-    expect(() => envs.compare(envReadFiles)).to.throw(
+    expect(() => compare(envReadFiles)).to.throw(
       `${envFiles[0]} not equal to ${envFiles[1]}`,
     );
 
@@ -59,10 +59,10 @@ describe('guardian of env test', () => {
     ];
     const envReadFilesA = {
       strict: false,
-      files: envs.readFile(envFilesA),
+      files: readFile(envFilesA),
     };
 
-    expect(() => envs.compare(envReadFilesA)).to.throw(
+    expect(() => compare(envReadFilesA)).to.throw(
       `${envFilesA[0]} not equal to ${envFilesA[1]}`,
     );
   });
@@ -74,10 +74,10 @@ describe('guardian of env test', () => {
     ];
     const envReadFiles = {
       strict: false,
-      files: envs.readFile(envFiles),
+      files: readFile(envFiles),
     };
 
-    expect(envs.compare(envReadFiles)).to.equal(true);
+    expect(compare(envReadFiles)).to.equal(true);
 
     // test multiple line
     const envFilesA = [
@@ -86,10 +86,10 @@ describe('guardian of env test', () => {
     ];
     const envReadFilesA = {
       strict: false,
-      files: envs.readFile(envFilesA),
+      files: readFile(envFilesA),
     };
 
-    expect(envs.compare(envReadFilesA)).to.equal(true);
+    expect(compare(envReadFilesA)).to.equal(true);
 
     // test multiple line different sort
     const envFilesB = [
@@ -98,10 +98,10 @@ describe('guardian of env test', () => {
     ];
     const envReadFilesB = {
       strict: false,
-      files: envs.readFile(envFilesB),
+      files: readFile(envFilesB),
     };
 
-    expect(envs.compare(envReadFilesB)).to.equal(true);
+    expect(compare(envReadFilesB)).to.equal(true);
   });
 
   it('should throw error when mode is `strict`', () => {
@@ -111,10 +111,10 @@ describe('guardian of env test', () => {
     ];
     const envReadFiles = {
       strict: true,
-      files: envs.readFile(envFiles),
+      files: readFile(envFiles),
     };
 
-    expect(() => envs.compare(envReadFiles)).to.throw(
+    expect(() => compare(envReadFiles)).to.throw(
       `${envFiles[0]} not equal to ${envFiles[1]}`,
     );
   });

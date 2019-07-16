@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-import * as guardian from './guardian';
+import { parseArgs, startCompare } from './guardian';
 
 const [, , ...args] = process.argv;
-const envFiles = guardian.parseArgs(args);
-const compareResult = guardian.startCompare(envFiles);
+const envFiles = parseArgs(args);
+const compareResult = startCompare(envFiles);
 
 compareResult.messages.forEach(message => console.log(message));
 
