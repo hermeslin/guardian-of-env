@@ -2,6 +2,7 @@ import path from 'path';
 import { expect } from 'chai';
 import { StringDecoder } from 'string_decoder';
 import { list, readFile, compare } from '../src/envs';
+import EnvFilesNotEqualError from '../src/errors/EnvFilesNotEqualError';
 
 describe('guardian of env test', () => {
   const cwd = process.cwd();
@@ -44,27 +45,33 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.not.the.same'),
     ];
     const envReadFiles = {
-      strict: false,
       files: readFile(envFiles),
     };
 
-    expect(() => compare(envReadFiles)).to.throw(
-      `${envFiles[0]} not equal to ${envFiles[1]}`,
-    );
+    expect(() => compare(envReadFiles)).to.throw(EnvFilesNotEqualError);
+  });
 
+  it('should throw error when multiple env key names not equal', () => {
     // test multiple line
     const envFilesA = [
       path.resolve(cwd, 'test/.env.multiple'),
       path.resolve(cwd, 'test/.env.multiple.not.the.same'),
     ];
     const envReadFilesA = {
-      strict: false,
       files: readFile(envFilesA),
     };
 
-    expect(() => compare(envReadFilesA)).to.throw(
-      `${envFilesA[0]} not equal to ${envFilesA[1]}`,
-    );
+    expect(() => compare(envReadFilesA)).to.throw(EnvFilesNotEqualError);
+
+    // test multiple line in different order
+    const envFilesB = [
+      path.resolve(cwd, 'test/.env.multiple'),
+      path.resolve(cwd, 'test/.env.multiple.the.same.different.sort'),
+    ];
+    const envReadFilesB = {
+      files: readFile(envFilesB),
+    };
+    expect(() => compare(envReadFilesB)).to.throw(EnvFilesNotEqualError);
   });
 
   it('should not throw error', () => {
@@ -73,7 +80,6 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.the.same'),
     ];
     const envReadFiles = {
-      strict: false,
       files: readFile(envFiles),
     };
 
@@ -85,37 +91,9 @@ describe('guardian of env test', () => {
       path.resolve(cwd, 'test/.env.multiple.the.same'),
     ];
     const envReadFilesA = {
-      strict: false,
       files: readFile(envFilesA),
     };
 
     expect(compare(envReadFilesA)).to.equal(true);
-
-    // test multiple line different sort
-    const envFilesB = [
-      path.resolve(cwd, 'test/.env.multiple'),
-      path.resolve(cwd, 'test/.env.multiple.the.same.different.sort'),
-    ];
-    const envReadFilesB = {
-      strict: false,
-      files: readFile(envFilesB),
-    };
-
-    expect(compare(envReadFilesB)).to.equal(true);
-  });
-
-  it('should throw error when mode is `strict`', () => {
-    const envFiles = [
-      path.resolve(cwd, 'test/.env.multiple'),
-      path.resolve(cwd, 'test/.env.multiple.the.same.different.sort'),
-    ];
-    const envReadFiles = {
-      strict: true,
-      files: readFile(envFiles),
-    };
-
-    expect(() => compare(envReadFiles)).to.throw(
-      `${envFiles[0]} not equal to ${envFiles[1]}`,
-    );
   });
 });
