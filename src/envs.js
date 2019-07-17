@@ -58,8 +58,6 @@ export const compare = ({ files }) => {
       // extra info
       const payload = {
         fileNames,
-        baseEnvKeys,
-        envKeys,
         diffs: diffArrays(envKeys, baseEnvKeys),
       };
 
