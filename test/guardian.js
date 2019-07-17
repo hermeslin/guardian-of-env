@@ -41,7 +41,6 @@ describe('guardian test', () => {
     ]);
 
     const args = [
-      '--strict',
       '.env',
       '.env.example',
     ];

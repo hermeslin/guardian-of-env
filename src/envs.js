@@ -1,6 +1,7 @@
 import fs from 'fs';
 import dotenv from 'dotenv';
 import isEqual from 'lodash.isequal';
+import { diffArrays } from 'diff';
 import EnvFilesNotEqualError from './errors/EnvFilesNotEqualError';
 
 /**
@@ -37,14 +38,11 @@ export const readFile = (envList) => {
  * Compare env key name
  *
  * @param {array} envsFiles
- * @param {boolean} strict
  */
-export const compare = ({ strict, files }) => {
+export const compare = ({ files }) => {
   const baseEnv = files.shift();
   const baseEnvObj = dotenv.parse(baseEnv.content);
-  const baseEnvKeys = strict
-    ? Object.keys(baseEnvObj)
-    : Object.keys(baseEnvObj).sort();
+  const baseEnvKeys = Object.keys(baseEnvObj);
 
   const fileRegexp = /.env((\.|-)?([a-z]+)?)+$/;
   const [baseFileName] = baseEnv.path.match(fileRegexp);
@@ -52,7 +50,7 @@ export const compare = ({ strict, files }) => {
 
   files.forEach(({ content, path }) => {
     const envObj = dotenv.parse(content);
-    const envKeys = strict ? Object.keys(envObj) : Object.keys(envObj).sort();
+    const envKeys = Object.keys(envObj);
 
     fileNames.push(path.match(fileRegexp)[0]);
 
@@ -60,8 +58,7 @@ export const compare = ({ strict, files }) => {
       // extra info
       const payload = {
         fileNames,
-        baseEnvKeys,
-        envKeys,
+        diffs: diffArrays(envKeys, baseEnvKeys),
       };
 
       throw new EnvFilesNotEqualError(`${baseEnv.path} not equal to ${path}`, payload);

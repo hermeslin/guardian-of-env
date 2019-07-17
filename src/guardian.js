@@ -15,15 +15,11 @@ export const highlightFile = fileName => `\u001b[32m${fileName}\u001b[39m`;
  * @param {array} args process args
  */
 export const parseArgs = (args) => {
-  const strictCommand = '--strict';
-
-  const isStrict = args.includes(strictCommand);
-  const envArgs = args.filter(arg => arg !== strictCommand);
-  const envList = envs.list(envArgs);
+  const envList = envs.list(args);
 
   return {
-    args: envArgs,
-    strict: isStrict,
+    args,
+    strict: true,
     files: envs.readFile(envList),
   };
 };

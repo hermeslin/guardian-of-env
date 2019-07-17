@@ -3,6 +3,9 @@
 [![codecov](https://codecov.io/gh/hermeslin/guardian-of-env/branch/master/graph/badge.svg)](https://codecov.io/gh/hermeslin/guardian-of-env)
 [![version npm](https://img.shields.io/npm/v/guardian-of-env.svg?style=flat-square)](https://www.npmjs.com/package/guardian-of-env) [![Greenkeeper badge](https://badges.greenkeeper.io/hermeslin/guardian-of-env.svg)](https://greenkeeper.io/)
 
+##  Screenshot
+![Screenshot](https://github.com/hermeslin/guardian-of-env/blob/master/result.png)
+
 ## Installation
 ```sh
 yarn add guardian-of-env --dev
@@ -12,23 +15,12 @@ yarn add guardian-of-env --dev
 in your project folder, execute `guardian-of-env`, and  `guardian-of-env` compares `.env` and `.env.example` file by default.
 
 ```sh
-./node_modules/.bin/guardian-of-env
+npx guardian-of-env
 ```
 
-or compare files you want to
+or set more files that you want to compare
 ```
-./node_modules/.bin/guardian-of-env .env .env.example .env.exmaple.example
-```
-
-## Strict mode
-you want to ensure .env files all the same, and like the same sort of environment key names, use `--strict`
-
-```sh
-./node_modules/.bin/guardian-of-env --strict
-```
-
-```sh
-./node_modules/.bin/guardian-of-env --strict .env .env.example .env.exmaple.example
+npx guardian-of-env .env .env.example .env.exmaple.example
 ```
 
 ## Work with pre-commit
@@ -36,7 +28,7 @@ install `pre-commit` first, and follow the configuration of package.json below
 ```js
 {
     "scripts": {
-        "guardian-of-env": "./node_modules/.bin/guardian-of-env --strict"
+        "guardian-of-env": "guardian-of-env"
     },
     "pre-commit": [
         "guardian-of-env"
@@ -51,7 +43,7 @@ or you want to compare your .env files in the ci phase
 ```js
 {
     "scripts": {
-        "guardian-of-env": "./node_modules/.bin/guardian-of-env --strict .env .env.test"
+        "guardian-of-env": "./node_modules/.bin/guardian-of-env .env .env.test"
     },
 }
 ```

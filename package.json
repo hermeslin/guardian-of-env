@@ -27,7 +27,7 @@
     "report-coverage": "nyc report --reporter=text-lcov | codecov --pipe",
     "build": "yarn test && cross-env BABEL_ENV=production babel src --out-dir lib",
     "build:minify": "yarn test && cross-env BABEL_ENV=production babel src --out-dir lib --presets minify",
-    "pre-publish": "yarn clean && yarn lint && yarn test && yarn build"
+    "pre-publish": "yarn clean && yarn lint && yarn build"
   },
   "bin": {
     "guardian-of-env": "./lib/main.js"
@@ -36,6 +36,7 @@
     "lint"
   ],
   "dependencies": {
+    "diff": "^4.0.1",
     "dotenv": "^8.0.0",
     "lodash.isequal": "^4.5.0",
     "table": "^5.4.1"
