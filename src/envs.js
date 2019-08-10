@@ -17,7 +17,7 @@ export const defaultEnvFiles = ['.env', '.env.example'];
 export const list = (args = []) => {
   const envFiles = args.length > 0 ? args : defaultEnvFiles;
 
-  return envFiles.map(envFile => `${process.cwd()}/${envFile}`);
+  return envFiles.map((envFile) => `${process.cwd()}/${envFile}`);
 };
 
 /**
@@ -26,7 +26,7 @@ export const list = (args = []) => {
  * @param {array} envList env files
  */
 export const readFile = (envList) => {
-  const envContent = envList.map(env => ({
+  const envContent = envList.map((env) => ({
     path: env,
     content: fs.readFileSync(env),
   }));

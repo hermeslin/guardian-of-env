@@ -5,7 +5,7 @@ import { table } from 'table';
  *
  * @param {string} key
  */
-export const colorfulLostKey = key => `\u001b[31m${key}\u001b[39m`;
+export const colorfulLostKey = (key) => `\u001b[31m${key}\u001b[39m`;
 
 
 /**
@@ -13,7 +13,7 @@ export const colorfulLostKey = key => `\u001b[31m${key}\u001b[39m`;
  *
  * @param {string} key
  */
-export const colorfulSavedKey = key => `\u001b[32m${key}\u001b[39m`;
+export const colorfulSavedKey = (key) => `\u001b[32m${key}\u001b[39m`;
 
 /**
  * Draw table
