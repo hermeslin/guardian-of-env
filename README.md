@@ -4,7 +4,7 @@
 [![version npm](https://img.shields.io/npm/v/guardian-of-env.svg?style=flat-square)](https://www.npmjs.com/package/guardian-of-env) [![Greenkeeper badge](https://badges.greenkeeper.io/hermeslin/guardian-of-env.svg)](https://greenkeeper.io/)
 
 ##  Screenshot
-![Screenshot](https://github.com/hermeslin/guardian-of-env/blob/master/result.png)
+![Screenshot](https://raw.githubusercontent.com/hermeslin/guardian-of-env/master/result.png)
 
 ## Installation
 ```sh
