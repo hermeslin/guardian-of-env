@@ -7,7 +7,7 @@ import { draw as tableDrawer } from './tableDrawer';
  *
  * @param {string} fileName file name
  */
-export const highlightFile = fileName => `\u001b[32m${fileName}\u001b[39m`;
+export const highlightFile = (fileName) => `\u001b[32m${fileName}\u001b[39m`;
 
 /**
  * parse process args
