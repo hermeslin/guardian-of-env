@@ -1,7 +1,8 @@
 # guardian-of-env
 [![Build Status](https://travis-ci.com/hermeslin/guardian-of-env.svg?branch=master)](https://travis-ci.com/hermeslin/guardian-of-env)
 [![codecov](https://codecov.io/gh/hermeslin/guardian-of-env/branch/master/graph/badge.svg)](https://codecov.io/gh/hermeslin/guardian-of-env)
-[![version npm](https://img.shields.io/npm/v/guardian-of-env.svg?style=flat-square)](https://www.npmjs.com/package/guardian-of-env) [![Greenkeeper badge](https://badges.greenkeeper.io/hermeslin/guardian-of-env.svg)](https://greenkeeper.io/)
+[![version npm](https://img.shields.io/npm/v/guardian-of-env.svg?style=flat-square)](https://www.npmjs.com/package/guardian-of-env)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
 ##  Screenshot
 ![Screenshot](https://raw.githubusercontent.com/hermeslin/guardian-of-env/master/result.png)
