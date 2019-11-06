@@ -76,3 +76,4 @@ CHANGELOG.md
 .babelrc
 .gitignore
 .eslintrc.json
+renovate.json
