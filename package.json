@@ -26,7 +26,8 @@
     "test:coverage:html": "yarn lint && cross-env NODE_ENV=test nyc --reporter=html yarn test",
     "report-coverage": "nyc report --reporter=text-lcov | codecov --pipe",
     "build": "yarn test && cross-env BABEL_ENV=production babel src --out-dir lib",
-    "build:minify": "yarn test && cross-env BABEL_ENV=production babel src --out-dir lib --presets minify"
+    "build:minify": "yarn test && cross-env BABEL_ENV=production babel src --out-dir lib --presets minify",
+    "pre-publish": "yarn clean && yarn lint && yarn build"
   },
   "bin": {
     "guardian-of-env": "./lib/main.js"
@@ -40,8 +41,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "npm test",
-      "pre-publish": "npm run clean && npm run lint && npm run build"
+      "pre-push": "npm test"
     }
   },
   "dependencies": {
