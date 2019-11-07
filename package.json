@@ -1,6 +1,6 @@
 {
   "name": "guardian-of-env",
-  "version": "1.2.4",
+  "version": "1.2.6",
   "description": "ensure .env files are all the same",
   "main": "./lib/main.js",
   "repository": "https://github.com/hermeslin/guardian-of-env.git",
