@@ -8,6 +8,9 @@
   "contributors": [
     "Peng-Jie <bivinity.pengzjie@gmail.com>"
   ],
+  "engines": {
+    "node": ">= 10"
+  },
   "license": "MIT",
   "keywords": [
     "guardian",
@@ -59,7 +62,7 @@
     "babel-eslint": "10.0.3",
     "babel-plugin-istanbul": "5.2.0",
     "chai": "4.2.0",
-    "codecov": "3.6.5",
+    "codecov": "3.7.1",
     "cross-env": "6.0.3",
     "eslint": "6.6.0",
     "eslint-config-airbnb-base": "14.0.0",
