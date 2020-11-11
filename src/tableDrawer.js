@@ -7,7 +7,6 @@ import { table } from 'table';
  */
 export const colorfulLostKey = (key) => `\u001b[31m${key}\u001b[39m`;
 
-
 /**
  * Colorful saved key
  *
