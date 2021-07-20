@@ -62,7 +62,7 @@
     "babel-eslint": "10.1.0",
     "babel-plugin-istanbul": "6.0.0",
     "chai": "4.3.4",
-    "codecov": "3.8.2",
+    "codecov": "3.8.3",
     "cross-env": "7.0.3",
     "eslint": "7.31.0",
     "eslint-config-airbnb-base": "14.2.1",
