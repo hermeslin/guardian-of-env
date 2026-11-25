@@ -1,17 +1,21 @@
 {
   "extends": [
-    "config:base",
-    ":pinOnlyDevDependencies"
+    "config:recommended",
+    ":pinOnlyDevDependencies",
+    "group:allNonMajor"
   ],
+  "timezone": "Asia/Taipei",
   "rangeStrategy": "bump",
   "rebaseLabel": "rebase",
   "rebaseWhen": "auto",
   "schedule": [
-    "before 5:00am"
+    "before 6am on the first day of the month"
   ],
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 2,
   "packageRules": [
     {
-      "updateTypes": [
+      "matchUpdateTypes": [
         "minor",
         "patch",
         "pin",
@@ -20,7 +24,7 @@
       "automerge": true
     },
     {
-      "depTypeList": [
+      "matchDepTypes": [
         "devDependencies"
       ],
       "automerge": true
