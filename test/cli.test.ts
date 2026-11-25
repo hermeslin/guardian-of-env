@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 
-const CLI = path.resolve('lib/main.js');
+const CLI = path.resolve('dist/main.js');
 const SAME = '.env files all the same!\n';
 
 const run = (args: string[], cwd = process.cwd()) => {
@@ -41,6 +41,14 @@ describe('guardian-of-env CLI', () => {
     it('.env and .env.example in the cwd when no arguments are given', () => {
       const cwd = projectWith({ '.env': 'A=1\nB=2\n', '.env.example': 'A=\nB=\n' });
       expect(run([], cwd)).toEqual({ exitCode: 0, stdout: SAME, stderr: '' });
+    });
+
+    it('treating a quoted multi-line value as one key', () => {
+      const cwd = projectWith({
+        '.env': 'CERT="-----BEGIN-----\nBODY=abc\n-----END-----"\nA=1\n',
+        '.env.example': 'CERT=\nA=\n',
+      });
+      expect(run(['.env', '.env.example'], cwd)).toEqual({ exitCode: 0, stdout: SAME, stderr: '' });
     });
 
     it('even when a key is repeated in one file', () => {

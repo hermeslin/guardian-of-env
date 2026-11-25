@@ -1,9 +1,8 @@
 # Keep host-installed artifacts out of the image so tests run
-# only against what yarn installs inside the container.
+# only against what npm installs inside the container.
 node_modules
-lib
+dist
 coverage
-.nyc_output
 *.log
 
 .git

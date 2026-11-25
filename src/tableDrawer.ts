@@ -1,29 +1,17 @@
+import type { ArrayChange } from 'diff';
 import { table } from 'table';
 
-/**
- * Colorful lost key
- *
- * @param {string} key
- */
-export const colorfulLostKey = (key) => `\u001b[31m${key}\u001b[39m`;
+export interface DrawPayload {
+  fileNames: string[];
+  diffs: ArrayChange<string>[];
+}
 
-/**
- * Colorful saved key
- *
- * @param {string} key
- */
-export const colorfulSavedKey = (key) => `\u001b[32m${key}\u001b[39m`;
+export const colorfulLostKey = (key: string) => `\u001b[31m${key}\u001b[39m`;
 
-/**
- * Draw table
- *
- * @param {Object} payload
- * @param {number} payload.fileNames
- * @param {number} payload.baseEnvKeys
- * @param {number} payload.envKeys
- */
-export const draw = ({ fileNames, diffs }) => {
-  const parametersMapping = [];
+export const colorfulSavedKey = (key: string) => `\u001b[32m${key}\u001b[39m`;
+
+export const draw = ({ fileNames, diffs }: DrawPayload): string => {
+  const parametersMapping: string[][] = [];
   diffs.forEach((part) => {
     const { added, removed, value } = part;
     if (added) {
@@ -35,7 +23,6 @@ export const draw = ({ fileNames, diffs }) => {
         parametersMapping.push([colorfulLostKey(key), key]);
       });
     } else {
-      // normal row
       value.forEach((key) => {
         parametersMapping.push([key, key]);
       });
