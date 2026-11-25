@@ -71,7 +71,7 @@ steps:
 
 ## Development
 
-Run lint and the test suite inside Docker, isolated from the Node.js and npm installed on your machine (requires Docker with Compose v2):
+Run lint, the format check, the type check and the tests (`npm run check`) inside Docker, isolated from the Node.js and npm installed on your machine (requires Docker with Compose v2):
 
 ```sh
 # Node.js 22 (default)

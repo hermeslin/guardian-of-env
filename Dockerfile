@@ -1,4 +1,4 @@
-# Test image: runs lint + tests in a clean Node environment,
+# Test image: runs lint, format check, typecheck and tests in a clean Node environment,
 # isolated from the Node/npm installed on the host.
 #
 #   docker compose run --rm --build test
@@ -16,4 +16,4 @@ RUN npm ci
 
 COPY . .
 
-CMD ["npm", "run", "test:coverage"]
+CMD ["npm", "run", "check"]

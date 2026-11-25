@@ -29,22 +29,11 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "check": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage"
   },
   "bin": {
     "guardian-of-env": "./dist/main.js"
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm test"
-    }
   },
   "dependencies": {
     "diff": "^5.2.2",
@@ -60,9 +49,6 @@
     "@vitest/coverage-v8": "5.1.1",
     "eslint": "10.15.0",
     "eslint-config-prettier": "10.1.8",
-    "husky": "7.0.2",
-    "lint-staged": "11.2.3",
-    "pre-commit": "1.2.2",
     "prettier": "3.10.1",
     "rimraf": "3.0.2",
     "typescript": "6.0.3",
