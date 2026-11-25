@@ -21,15 +21,11 @@
     "settings"
   ],
   "scripts": {
-    "clean": "rimraf lib .nyc_output coverage",
-    "clean:all": "npm run clean && rimraf node_modules",
+    "clean": "rimraf lib coverage",
     "lint": "eslint ./src/**",
-    "test": "npm run lint && cross-env NODE_ENV=test NODE_PATH=./src mocha --timeout 20000 --require @babel/register",
-    "test:coverage": "npm run lint && cross-env NODE_ENV=test nyc npm test",
-    "test:coverage:html": "npm run lint && cross-env NODE_ENV=test nyc --reporter=html npm test",
-    "build": "npm test && cross-env BABEL_ENV=production babel src --out-dir lib",
-    "build:minify": "npm test && cross-env BABEL_ENV=production babel src --out-dir lib --presets minify",
-    "build:pre-test": "npm run clean && npm run lint && npm run build"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "build": "babel src --out-dir lib"
   },
   "bin": {
     "guardian-of-env": "./lib/main.js"
@@ -56,22 +52,15 @@
     "@babel/cli": "7.29.7",
     "@babel/core": "7.29.13",
     "@babel/eslint-parser": "7.29.13",
-    "@babel/node": "7.29.7",
     "@babel/preset-env": "7.29.14",
-    "@babel/register": "7.29.13",
-    "babel-plugin-istanbul": "6.1.1",
-    "chai": "4.5.0",
-    "cross-env": "7.0.3",
+    "@vitest/coverage-v8": "5.1.1",
     "eslint": "7.32.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-plugin-import": "2.32.0",
-    "execa": "5.1.1",
     "husky": "7.0.2",
     "lint-staged": "11.2.3",
-    "mocha": "9.1.2",
-    "nyc": "15.1.0",
     "pre-commit": "1.2.2",
     "rimraf": "3.0.2",
-    "sinon": "11.1.2"
+    "vitest": "5.1.1"
   }
 }

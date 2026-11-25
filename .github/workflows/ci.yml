@@ -27,7 +27,8 @@ jobs:
 
       - run: npm ci
 
-      # Runs lint + mocha under nyc and prints a coverage summary
+      - run: npm run lint
+
       - run: npm run test:coverage
 
       - name: Build
