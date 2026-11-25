@@ -1,5 +1,3 @@
-# Keep host-installed artifacts out of the image so tests run
-# only against what npm installs inside the container.
 node_modules
 dist
 coverage

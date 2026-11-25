@@ -8,7 +8,6 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['src/**'],
-      // test/cli.test.ts runs the entry point in a child process, which v8 coverage cannot see.
       exclude: ['src/main.*'],
       thresholds: { 100: true },
     },
