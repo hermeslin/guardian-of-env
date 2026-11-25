@@ -58,3 +58,16 @@ steps:
   - run: yarn install --frozen-lockfile
   - run: yarn guardian-of-env
 ```
+
+## Development
+Run lint and the test suite inside Docker, isolated from the Node.js and yarn installed on your machine (requires Docker with Compose v2):
+
+```sh
+# Node.js 22 (default)
+docker compose run --rm --build test
+
+# another Node.js version, e.g. 24
+NODE_VERSION=24 docker compose run --rm --build test
+```
+
+Dependencies are installed inside the image from `yarn.lock`; your local `node_modules` is never used.
