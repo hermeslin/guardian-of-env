@@ -23,15 +23,15 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
-          cache: yarn
+          cache: npm
 
-      - run: yarn install --frozen-lockfile
+      - run: npm ci
 
       # Runs lint + mocha under nyc and prints a coverage summary
-      - run: yarn test:coverage
+      - run: npm run test:coverage
 
       - name: Build
-        run: yarn build
+        run: npm run build
 
   publish:
     needs: test
@@ -44,12 +44,12 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: '22.x'
-          cache: yarn
+          cache: npm
           registry-url: 'https://registry.npmjs.org'
 
-      - run: yarn install --frozen-lockfile
+      - run: npm ci
 
-      - run: yarn build
+      - run: npm run build
 
       - run: npm publish
         env:

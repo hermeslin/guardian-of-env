@@ -60,7 +60,7 @@ steps:
 ```
 
 ## Development
-Run lint and the test suite inside Docker, isolated from the Node.js and yarn installed on your machine (requires Docker with Compose v2):
+Run lint and the test suite inside Docker, isolated from the Node.js and npm installed on your machine (requires Docker with Compose v2):
 
 ```sh
 # Node.js 22 (default)
@@ -70,4 +70,4 @@ docker compose run --rm --build test
 NODE_VERSION=24 docker compose run --rm --build test
 ```
 
-Dependencies are installed inside the image from `yarn.lock`; your local `node_modules` is never used.
+Dependencies are installed inside the image from `package-lock.json`; your local `node_modules` is never used.
