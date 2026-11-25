@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ['22.x', '24.x']
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+
+      # Runs lint + mocha under nyc; writes coverage/lcov.info
+      - run: yarn test:coverage
+
+      - name: Upload coverage to Codecov
+        if: matrix.node-version == '22.x'
+        uses: codecov/codecov-action@v7
+        with:
+          files: ./coverage/lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
+      - name: Build
+        run: yarn build
+
+  publish:
+    needs: test
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22.x'
+          cache: yarn
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: yarn install --frozen-lockfile
+
+      - run: yarn build
+
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
