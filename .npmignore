@@ -69,7 +69,7 @@ src
 test
 examples
 CHANGELOG.md
-.travis.yml
+.github
 .editorconfig
 .eslintignore
 .eslintrc

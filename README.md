@@ -1,6 +1,5 @@
 # guardian-of-env
-[![Build Status](https://travis-ci.com/hermeslin/guardian-of-env.svg?branch=master)](https://travis-ci.com/hermeslin/guardian-of-env)
-[![codecov](https://codecov.io/gh/hermeslin/guardian-of-env/branch/master/graph/badge.svg)](https://codecov.io/gh/hermeslin/guardian-of-env)
+[![CI](https://github.com/hermeslin/guardian-of-env/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/hermeslin/guardian-of-env/actions/workflows/ci.yml)
 [![version npm](https://img.shields.io/npm/v/guardian-of-env.svg?style=flat-square)](https://www.npmjs.com/package/guardian-of-env)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
@@ -37,7 +36,7 @@ install `pre-commit` first, and follow the configuration of package.json below
 }
 ```
 
-## Work with travis-ci
+## Work with CI
 or you want to compare your .env files in the ci phase
 
 ### package.json
@@ -49,8 +48,13 @@ or you want to compare your .env files in the ci phase
 }
 ```
 
-### .travis.yml
+### GitHub Actions (`.github/workflows/ci.yml`)
 ```yml
-script:
-- yarn guardian-of-env
+steps:
+  - uses: actions/checkout@v7
+  - uses: actions/setup-node@v7
+    with:
+      node-version: '22.x'
+  - run: yarn install --frozen-lockfile
+  - run: yarn guardian-of-env
 ```
