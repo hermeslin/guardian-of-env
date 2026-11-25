@@ -28,7 +28,9 @@ describe('readFile', () => {
 describe('compare', () => {
   it('returns true when every file has the same keys as the first', () => {
     expect(compare({ files: readFile(fixtures('.env.base', '.env.the.same')) })).toBe(true);
-    expect(compare({ files: readFile(fixtures('.env.multiple', '.env.multiple.the.same')) })).toBe(true);
+    expect(compare({ files: readFile(fixtures('.env.multiple', '.env.multiple.the.same')) })).toBe(
+      true,
+    );
   });
 
   it('throws EnvFilesNotEqualError when a key is missing or extra', () => {
@@ -42,7 +44,9 @@ describe('compare', () => {
 
   it('throws EnvFilesNotEqualError when the same keys appear in a different order', () => {
     expect(() =>
-      compare({ files: readFile(fixtures('.env.multiple', '.env.multiple.the.same.different.sort')) }),
+      compare({
+        files: readFile(fixtures('.env.multiple', '.env.multiple.the.same.different.sort')),
+      }),
     ).toThrow(EnvFilesNotEqualError);
   });
 });

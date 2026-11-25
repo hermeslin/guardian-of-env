@@ -61,8 +61,14 @@ describe('guardian-of-env CLI', () => {
     it.each([
       ['a missing and an extra key', ['test/.env.base', 'test/.env.not.the.same']],
       ['multi-line files', ['test/.env.multiple', 'test/.env.multiple.not.the.same']],
-      ['the same keys in another order', ['test/.env.multiple', 'test/.env.multiple.the.same.different.sort']],
-      ['the first of three files that differs', ['test/.env.base', 'test/.env.not.the.same', 'test/.env.the.same']],
+      [
+        'the same keys in another order',
+        ['test/.env.multiple', 'test/.env.multiple.the.same.different.sort'],
+      ],
+      [
+        'the first of three files that differs',
+        ['test/.env.base', 'test/.env.not.the.same', 'test/.env.the.same'],
+      ],
     ])('%s', (_, args) => {
       const result = run(args);
       expect(result.exitCode).toBe(1);
@@ -99,12 +105,15 @@ describe('guardian-of-env CLI', () => {
       expect(result.stderr).toContain('ENOENT');
     });
 
-    it.each([['.env.e2e'], ['.env.Production']])('when a file name like %s has digits or capitals', (name) => {
-      const cwd = projectWith({ '.env': 'A=1\n', [name]: 'A=2\n' });
-      const result = run(['.env', name], cwd);
-      expect(result.exitCode).toBe(1);
-      expect(result.stderr).toContain('TypeError');
-    });
+    it.each([['.env.e2e'], ['.env.Production']])(
+      'when a file name like %s has digits or capitals',
+      (name) => {
+        const cwd = projectWith({ '.env': 'A=1\n', [name]: 'A=2\n' });
+        const result = run(['.env', name], cwd);
+        expect(result.exitCode).toBe(1);
+        expect(result.stderr).toContain('TypeError');
+      },
+    );
 
     it('when a file other than the second one differs among three', () => {
       const result = run(['test/.env.base', 'test/.env.the.same', 'test/.env.not.the.same']);
