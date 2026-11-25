@@ -1,6 +1,5 @@
 # guardian-of-env
 [![CI](https://github.com/hermeslin/guardian-of-env/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/hermeslin/guardian-of-env/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/hermeslin/guardian-of-env/branch/master/graph/badge.svg)](https://codecov.io/gh/hermeslin/guardian-of-env)
 [![version npm](https://img.shields.io/npm/v/guardian-of-env.svg?style=flat-square)](https://www.npmjs.com/package/guardian-of-env)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
