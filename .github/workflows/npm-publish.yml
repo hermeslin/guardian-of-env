@@ -44,4 +44,34 @@ jobs:
 
       - run: npm ci --ignore-scripts
 
-      - run: npm publish
+      - name: Publish unless this version is already on npm
+        run: |
+          if npm view "guardian-of-env@${GITHUB_REF_NAME#v}" version > /dev/null 2>&1; then
+            echo "guardian-of-env@${GITHUB_REF_NAME#v} is already on npm"
+          else
+            npm publish
+          fi
+
+  release:
+    needs: publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Take the release notes from CHANGELOG.md
+        run: |
+          awk -v version="${GITHUB_REF_NAME#v}" '$1 == "##" { found = ($2 == version); next } found' CHANGELOG.md > release-notes.md
+          test -s release-notes.md
+
+      - name: Create the GitHub release unless it exists
+        run: |
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            echo "The $GITHUB_REF_NAME release already exists"
+          else
+            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file release-notes.md --verify-tag
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
