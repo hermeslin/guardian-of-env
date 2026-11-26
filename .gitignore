@@ -62,3 +62,8 @@ typings/
 
 # build result
 lib
+dist
+
+# editor and Claude Code personal settings
+.idea/
+.claude/settings.local.json
