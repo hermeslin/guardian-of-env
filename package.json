@@ -24,7 +24,7 @@
     "settings"
   ],
   "scripts": {
-    "clean": "rimraf dist coverage",
+    "clean": "node -e \"for (const dir of ['dist', 'coverage']) require('node:fs').rmSync(dir, { recursive: true, force: true })\"",
     "prepack": "npm run clean && npm run build",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -52,7 +52,6 @@
     "eslint": "10.15.0",
     "eslint-config-prettier": "10.1.8",
     "prettier": "3.10.1",
-    "rimraf": "3.0.2",
     "typescript": "6.0.3",
     "typescript-eslint": "8.74.0",
     "vitest": "5.1.1"

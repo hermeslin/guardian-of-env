@@ -25,9 +25,8 @@ const repeated = (keys: string[]): string[] => {
 
 export const parseEnvFile = (name: string, content: string): EnvFile => {
   const found = scanKeys(content);
-  return {
-    name,
-    keys: Object.keys(dotenv.parse(content)).sort((a, b) => found.indexOf(a) - found.indexOf(b)),
-    duplicates: repeated(found),
-  };
+  const keys = Object.keys(dotenv.parse(content)).sort(
+    (a, b) => found.indexOf(a) - found.indexOf(b),
+  );
+  return { name, keys, duplicates: repeated(found).filter((key) => keys.includes(key)) };
 };
