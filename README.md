@@ -102,7 +102,9 @@ Dependencies are installed inside the image from `package-lock.json`; your local
 
 ## Release
 
-1. Set the version in `package.json` and the date of its `CHANGELOG.md` entry, and merge to `master`.
+1. Set the version in `package.json`, add a `## <version>` section to `CHANGELOG.md`, and merge to `master`.
 2. Push a tag named after the version, such as `v2.0.0`.
 
-The `Publish` workflow runs `npm run check`, confirms that the tag matches `package.json`, and publishes to npm from the `npm-publish` environment through npm trusted publishing. No npm token is stored in the repository.
+The `Publish` workflow runs `npm run check`, confirms that the tag matches `package.json`, and publishes to npm from the `npm-publish` environment through npm trusted publishing. No npm token is stored in the repository. It then creates a GitHub release whose notes are that version's `CHANGELOG.md` section.
+
+If GitHub starts no `Publish` run for the tag, delete the remote tag and push it again.
