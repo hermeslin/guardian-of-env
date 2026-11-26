@@ -1,9 +1,12 @@
 {
   "name": "guardian-of-env",
   "version": "2.0.0",
-  "description": "ensure .env files are all the same",
+  "description": "Check in CI that your .env files have the same keys",
   "type": "module",
-  "repository": "https://github.com/hermeslin/guardian-of-env.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hermeslin/guardian-of-env.git"
+  },
   "author": "hermeslin <mercury.iwork@gmail.com>",
   "contributors": [
     "Peng-Jie <bivinity.pengzjie@gmail.com>"
@@ -22,6 +25,7 @@
   ],
   "scripts": {
     "clean": "rimraf dist coverage",
+    "prepack": "npm run clean && npm run build",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -32,7 +36,7 @@
     "check": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage"
   },
   "bin": {
-    "guardian-of-env": "./dist/main.js"
+    "guardian-of-env": "dist/main.js"
   },
   "files": [
     "dist"

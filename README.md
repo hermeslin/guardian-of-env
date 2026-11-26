@@ -99,3 +99,10 @@ NODE_VERSION=24 docker compose run --rm --build test
 ```
 
 Dependencies are installed inside the image from `package-lock.json`; your local `node_modules` is never used.
+
+## Release
+
+1. Set the version in `package.json` and the date of its `CHANGELOG.md` entry, and merge to `master`.
+2. Push a tag named after the version, such as `v2.0.0`.
+
+The `Publish` workflow runs `npm run check`, confirms that the tag matches `package.json`, and publishes to npm from the `npm-publish` environment through npm trusted publishing. No npm token is stored in the repository.
