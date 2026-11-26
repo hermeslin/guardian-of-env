@@ -1,6 +1,6 @@
 import fs from 'fs';
+import { isDeepStrictEqual } from 'util';
 import dotenv from 'dotenv';
-import isEqual from 'lodash.isequal';
 import { diffArrays } from 'diff';
 import EnvFilesNotEqualError from './errors/EnvFilesNotEqualError';
 
@@ -54,7 +54,7 @@ export const compare = ({ files }) => {
 
     fileNames.push(path.match(fileRegexp)[0]);
 
-    if (!isEqual(baseEnvKeys, envKeys)) {
+    if (!isDeepStrictEqual(baseEnvKeys, envKeys)) {
       // extra info
       const payload = {
         fileNames,
