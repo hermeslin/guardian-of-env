@@ -37,7 +37,6 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: '24.x'
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Check that the tag matches package.json
         run: test "$GITHUB_REF_NAME" = "v$(node -p "require('./package.json').version")"
@@ -45,6 +44,12 @@ jobs:
       - run: yarn install --frozen-lockfile --ignore-scripts
 
       - run: yarn build
+
+      - name: Point npm at the registry for trusted publishing
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Publish under the latest-1 dist-tag unless this version is already on npm
         run: |
