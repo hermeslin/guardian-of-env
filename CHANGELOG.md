@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.0.1
+
+### Fixes
+
+- A name that dotenv does not read as a key, such as `__proto__`, is no longer reported as a duplicate key when it appears twice.
+
+### Internal
+
+- The Publish workflow checks the tag against `package.json` and `CHANGELOG.md` before the tests, so a release without its version bump or notes stops before anything is published.
+- CI runs `npm run check` once and no longer builds `dist/` twice.
+- `rimraf` is removed from the development dependencies.
+
 ## 2.0.0
 
 ### Breaking changes
