@@ -1,16 +1,15 @@
 {
   "name": "guardian-of-env",
-  "version": "1.2.8",
+  "version": "2.0.0",
   "description": "ensure .env files are all the same",
   "type": "module",
-  "main": "./dist/main.js",
   "repository": "https://github.com/hermeslin/guardian-of-env.git",
   "author": "hermeslin <mercury.iwork@gmail.com>",
   "contributors": [
     "Peng-Jie <bivinity.pengzjie@gmail.com>"
   ],
   "engines": {
-    "node": ">=22"
+    "node": ">=22.13"
   },
   "license": "MIT",
   "keywords": [
@@ -39,15 +38,11 @@
     "dist"
   ],
   "dependencies": {
-    "diff": "^5.2.2",
     "dotenv": "^18.0.10",
-    "lodash.isequal": "^4.5.0",
     "table": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@types/diff": "5.2.3",
-    "@types/lodash.isequal": "4.5.8",
     "@types/node": "22.20.5",
     "@vitest/coverage-v8": "5.1.1",
     "eslint": "10.15.0",

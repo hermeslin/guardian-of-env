@@ -4,70 +4,86 @@
 [![version npm](https://img.shields.io/npm/v/guardian-of-env.svg?style=flat-square)](https://www.npmjs.com/package/guardian-of-env)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
-## Screenshot
+`guardian-of-env` checks that your `.env` files have the same keys. Run it in CI, and the build fails when someone adds a variable to one file and forgets the others.
 
-![Screenshot](https://raw.githubusercontent.com/hermeslin/guardian-of-env/master/result.png)
+## Install
 
-## Installation
-
-```sh
-yarn add guardian-of-env --dev
-```
-
-## Configuration
-
-in your project folder, execute `guardian-of-env`, and `guardian-of-env` compares `.env` and `.env.example` file by default.
+`guardian-of-env` needs Node.js 22.13 or later.
 
 ```sh
-npx guardian-of-env
+npm install --save-dev guardian-of-env
 ```
 
-or set more files that you want to compare
+## Usage
 
+```sh
+npx guardian-of-env [--strict-order] <file> <file> [<file>...]
 ```
-npx guardian-of-env .env .env.example .env.exmaple.example
+
+Give two or more files. `guardian-of-env` compares each file with the first one. It compares only the keys, so the values can differ. A path is relative to the current directory, or absolute.
+
+| Option           | Effect                                                           |
+| ---------------- | ---------------------------------------------------------------- |
+| `--strict-order` | Also require the keys to be in the same order as the first file. |
+
+`guardian-of-env` reads the files with [dotenv](https://github.com/motdotla/dotenv), the parser most Node.js apps use. A quoted value that spans several lines is one key.
+
+## Exit codes
+
+| Code | Meaning                                                                                         |
+| ---- | ----------------------------------------------------------------------------------------------- |
+| `0`  | Every file has the same keys.                                                                   |
+| `1`  | A file lacks a key, a file repeats a key, or, with `--strict-order`, the keys are out of order. |
+| `2`  | Nothing was compared: fewer than two files, an unknown option, or a file that cannot be read.   |
+
+## Output
+
+When every file matches, `guardian-of-env` prints `.env files all the same!`. Otherwise it prints every problem it found:
+
+```console
+$ npx guardian-of-env .env.example .env.ci .env.e2e
+Not every file has the same keys:
+╔══════════════╤═════════╤══════════╗
+║ .env.example │ .env.ci │ .env.e2e ║
+╟──────────────┼─────────┼──────────╢
+║ API_KEY      │ API_KEY │          ║
+╟──────────────┼─────────┼──────────╢
+║              │ DEBUG   │          ║
+╚══════════════╧═════════╧══════════╝
+.env.ci has duplicate keys: PORT
 ```
 
-## Work with pre-commit
+The table has a row for each key that some file lacks. An empty cell means that file lacks the key.
 
-install `pre-commit` first, and follow the configuration of package.json below
+File names are green on a color terminal. Piped output, such as a CI log, has no colors. Set `NO_COLOR` to turn colors off, or `FORCE_COLOR` to turn them on.
 
-```js
+## Run it in CI
+
+Add a script to `package.json`:
+
+```json
 {
-    "scripts": {
-        "guardian-of-env": "guardian-of-env"
-    },
-    "pre-commit": [
-        "guardian-of-env"
-    ],
+  "scripts": {
+    "check:env": "guardian-of-env .env.example .env.ci"
+  }
 }
 ```
 
-## Work with CI
-
-or you want to compare your .env files in the ci phase
-
-### package.json
-
-```js
-{
-    "scripts": {
-        "guardian-of-env": "./node_modules/.bin/guardian-of-env .env .env.test"
-    },
-}
-```
-
-### GitHub Actions (`.github/workflows/ci.yml`)
+Then run the script in your workflow, for example in GitHub Actions:
 
 ```yml
 steps:
   - uses: actions/checkout@v7
   - uses: actions/setup-node@v7
     with:
-      node-version: '22.x'
-  - run: yarn install --frozen-lockfile
-  - run: yarn guardian-of-env
+      node-version: 22
+  - run: npm ci
+  - run: npm run check:env
 ```
+
+## Upgrade from 1.x
+
+Version 2 changes the defaults and the exit codes. See [the 2.0.0 changes](CHANGELOG.md#200).
 
 ## Development
 

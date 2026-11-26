@@ -1,10 +1,7 @@
 #!/usr/bin/env node
-import { parseArgs, startCompare } from './guardian.js';
+import { run } from './cli.js';
 
-const [, , ...args] = process.argv;
-const envFiles = parseArgs(args);
-const compareResult = startCompare(envFiles);
-
-compareResult.messages.forEach((message) => console.log(message));
-
-process.exitCode = compareResult.same ? 0 : 1;
+const { exitCode, stdout, stderr } = run(process.argv.slice(2), process.cwd());
+process.stdout.write(stdout);
+process.stderr.write(stderr);
+process.exitCode = exitCode;
