@@ -50,6 +50,14 @@ describe('parseEnvFile', () => {
     });
   });
 
+  it('reports only real keys as duplicates, so a repeated __proto__ line is ignored like dotenv ignores it', () => {
+    expect(parseEnvFile('.env', '__proto__=1\n__proto__=2\nA=1\n')).toEqual({
+      name: '.env',
+      keys: ['A'],
+      duplicates: [],
+    });
+  });
+
   it('reads a quoted multi-line value as one key, even when a line in it looks like a key', () => {
     expect(parseEnvFile('.env', 'CERT="-----BEGIN-----\nA=1\n-----END-----"\nA=2\n')).toEqual({
       name: '.env',
