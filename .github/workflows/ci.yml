@@ -35,6 +35,15 @@ jobs:
 
       - run: npm run test:coverage
 
+      - name: Upload coverage to Codecov
+        if: matrix.node-version == '22.x'
+        uses: codecov/codecov-action@v7
+        with:
+          files: ./coverage/lcov.info
+          disable_search: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
       - name: Build
         run: npm run build
 
