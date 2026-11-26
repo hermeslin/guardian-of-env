@@ -5,7 +5,7 @@ import { compare } from './compare.js';
 import { type EnvFile, parseEnvFile } from './envFile.js';
 import { report } from './report.js';
 
-export interface Output {
+interface Output {
   exitCode: 0 | 1 | 2;
   stdout: string;
   stderr: string;
