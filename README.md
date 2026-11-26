@@ -102,9 +102,9 @@ Dependencies are installed inside the image from `package-lock.json`; your local
 
 ## Release
 
-1. Set the version in `package.json`, add a `## <version>` section to `CHANGELOG.md`, and merge to `master`.
-2. Push a tag named after the version, such as `v2.0.0`.
+1. Set the version with `npm version <version> --no-git-tag-version`, add a `## <version>` section to `CHANGELOG.md`, and merge to `master`. `sh scripts/changelog-section.sh <version>` prints the notes the release will get.
+2. Push a tag named after the version, such as `v2.0.1`.
 
-The `Publish` workflow runs `npm run check`, confirms that the tag matches `package.json`, and publishes to npm from the `npm-publish` environment through npm trusted publishing. No npm token is stored in the repository. It then creates a GitHub release whose notes are that version's `CHANGELOG.md` section.
+The `Publish` workflow first checks that the tag matches the `package.json` version and that `CHANGELOG.md` has notes for it. If either is missing, it stops before the tests, and nothing is published. It then runs `npm run check` and publishes to npm from the `npm-publish` environment through npm trusted publishing. No npm token is stored in the repository. Last, it creates a GitHub release whose notes are that version's `CHANGELOG.md` section.
 
 GitHub can start the `Publish` run several minutes after the tag push. If no run starts after 15 minutes, delete the remote tag and push it again. Running the workflow again for a tag is safe: it skips a version that is already on npm and a release that already exists.
