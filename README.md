@@ -107,4 +107,4 @@ Dependencies are installed inside the image from `package-lock.json`; your local
 
 The `Publish` workflow runs `npm run check`, confirms that the tag matches `package.json`, and publishes to npm from the `npm-publish` environment through npm trusted publishing. No npm token is stored in the repository. It then creates a GitHub release whose notes are that version's `CHANGELOG.md` section.
 
-If GitHub starts no `Publish` run for the tag, delete the remote tag and push it again.
+GitHub can start the `Publish` run several minutes after the tag push. If no run starts after 15 minutes, delete the remote tag and push it again. Running the workflow again for a tag is safe: it skips a version that is already on npm and a release that already exists.
