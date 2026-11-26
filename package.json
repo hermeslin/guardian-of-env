@@ -1,6 +1,6 @@
 {
   "name": "guardian-of-env",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Check in CI that your .env files have the same keys",
   "type": "module",
   "repository": {
