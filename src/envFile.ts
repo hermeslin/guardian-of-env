@@ -23,8 +23,11 @@ const repeated = (keys: string[]): string[] => {
   return [...duplicates];
 };
 
-export const parseEnvFile = (name: string, content: string): EnvFile => ({
-  name,
-  keys: Object.keys(dotenv.parse(content)),
-  duplicates: repeated(scanKeys(content)),
-});
+export const parseEnvFile = (name: string, content: string): EnvFile => {
+  const found = scanKeys(content);
+  return {
+    name,
+    keys: Object.keys(dotenv.parse(content)).sort((a, b) => found.indexOf(a) - found.indexOf(b)),
+    duplicates: repeated(found),
+  };
+};

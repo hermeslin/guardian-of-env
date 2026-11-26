@@ -38,6 +38,10 @@ describe('parseEnvFile', () => {
     });
   });
 
+  it('keeps integer-like keys in file order', () => {
+    expect(parseEnvFile('.env', 'B=1\n42=x\nA=2\n7=y\n').keys).toEqual(['B', '42', 'A', '7']);
+  });
+
   it('lists each key that appears more than once', () => {
     expect(parseEnvFile('.env', 'A=1\nB=2\nA=3\nB=4\nA=5\n')).toEqual({
       name: '.env',

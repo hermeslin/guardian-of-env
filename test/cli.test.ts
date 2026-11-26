@@ -113,6 +113,15 @@ describe('guardian-of-env', () => {
         stderr: '',
       });
     });
+
+    it('integer-like keys in another order with --strict-order', () => {
+      const dir = projectWith({ '.env': 'B=1\n42=x\n', '.env.example': '42=\nB=\n' });
+      expect(run(['--strict-order', '.env', '.env.example'], dir)).toEqual({
+        exitCode: 1,
+        stdout: '.env.example has the keys of .env in another order: expected B, found 42\n',
+        stderr: '',
+      });
+    });
   });
 
   describe('exits 2 and explains on stderr when it cannot compare', () => {
