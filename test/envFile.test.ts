@@ -1,5 +1,33 @@
+import { isDeepStrictEqual } from 'node:util';
+import dotenv from 'dotenv';
 import { describe, expect, it } from 'vitest';
-import { parseEnvFile } from '../src/envFile.js';
+import { parseEnvFile, scanKeys } from '../src/envFile.js';
+
+const TOKENS = [
+  ...['A=', 'B=', 'A="', "B='", 'A=`', 'export ', 'a.b-1:', 'x', ' ', '\t'],
+  ...['\n', '\r\n', '\r', '#', '"', "'", '`', '\\', '\\"'],
+];
+
+const generatedEnvFiles = (count: number): string[] => {
+  let state = 1;
+  const next = (below: number) => {
+    state = (Math.imul(state, 1103515245) + 12345) >>> 0;
+    return (state >>> 16) % below;
+  };
+  return Array.from({ length: count }, () =>
+    Array.from({ length: next(30) }, () => TOKENS[next(TOKENS.length)]).join(''),
+  );
+};
+
+describe('scanKeys', () => {
+  it('finds the same keys as dotenv.parse in 5,000 generated files', () => {
+    const disagreements = generatedEnvFiles(5_000).filter(
+      (content) =>
+        !isDeepStrictEqual(new Set(scanKeys(content)), new Set(Object.keys(dotenv.parse(content)))),
+    );
+    expect(disagreements).toEqual([]);
+  });
+});
 
 describe('parseEnvFile', () => {
   it('lists the keys in file order', () => {

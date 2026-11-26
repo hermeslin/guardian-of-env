@@ -6,15 +6,17 @@ export interface EnvFile {
   duplicates: string[];
 }
 
-// Mirrors the default LINE regex of dotenv's parser in dist/index.cjs.
+// Copy of the regex in dotenv's default parser (dist/index.cjs).
 const LINE =
   /(?:^|^)\s*(?:export\s+)?([\w.-]+)(?:\s*=\s*?|:\s+?)(\s*'(?:\\'|[^'])*'|\s*"(?:\\"|[^"])*"|\s*`(?:\\`|[^`])*`|[^#\r\n]+)?\s*(?:#.*)?(?:$|$)/gm;
 
-const findDuplicates = (content: string): string[] => {
+export const scanKeys = (content: string): string[] =>
+  [...content.replace(/\r\n?/g, '\n').matchAll(LINE)].map((match) => match[1]);
+
+const repeated = (keys: string[]): string[] => {
   const seen = new Set<string>();
   const duplicates = new Set<string>();
-  for (const match of content.replace(/\r\n?/g, '\n').matchAll(LINE)) {
-    const key = match[1];
+  for (const key of keys) {
     if (seen.has(key)) duplicates.add(key);
     seen.add(key);
   }
@@ -24,5 +26,5 @@ const findDuplicates = (content: string): string[] => {
 export const parseEnvFile = (name: string, content: string): EnvFile => ({
   name,
   keys: Object.keys(dotenv.parse(content)),
-  duplicates: findDuplicates(content),
+  duplicates: repeated(scanKeys(content)),
 });
